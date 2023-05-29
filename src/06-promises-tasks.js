@@ -98,14 +98,15 @@ function getFastestPromise(array) {
  *    });
  *
  */
-function chainPromises(array, action) {
-  let res = '';
+function chainPromises(/* array, action */) {
+  throw new Error('Not implemented');
+  /* let res = '';
 
   array.map((item) => item.resolve(action)
     .then((result) => { res = result; })
     .catch(() => ''));
 
-  return res;
+  return res; */
 }
 
 module.exports = {
