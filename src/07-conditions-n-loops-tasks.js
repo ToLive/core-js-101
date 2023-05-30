@@ -176,8 +176,29 @@ function isInsideCircle(/* circle, point */) {
  *   'abracadabra'  => 'c'
  *   'entente' => null
  */
-function findFirstSingleChar(/* str */) {
-  throw new Error('Not implemented');
+function findFirstSingleChar(str) {
+  const chars = str.split('');
+  const map = {};
+
+  for (let i = 0; i < chars.length; i += 1) {
+    const char = chars[i];
+
+    if (char in map) {
+      map[char] += 1;
+    } else {
+      map[char] = 1;
+    }
+  }
+
+  for (let i = 0; i < chars.length; i += 1) {
+    const char = chars[i];
+
+    if (map[char] === 1) {
+      return char;
+    }
+  }
+
+  return null;
 }
 
 
@@ -334,16 +355,32 @@ function getDigitalRoot(num) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(/* str */) {
-  /* const brackets = {
+function isBracketsBalanced(str) {
+  const brackets = {
     '[': ']',
-    '(': ')',
     '{': '}',
+    '(': ')',
     '<': '>',
   };
 
-  let checker = []; */
-  throw new Error('Not implemented');
+  if (str.length === 0) {
+    return true;
+  }
+
+  const stack = [];
+
+  for (let i = 0; i < str.length; i += 1) {
+    const char = str[i];
+    const isOpenBracket = char in brackets;
+
+    if (isOpenBracket) {
+      stack.push(char);
+    } else if (stack.length === 0 || brackets[stack.pop()] !== char) {
+      return false;
+    }
+  }
+
+  return stack.length === 0;
 }
 
 
@@ -384,8 +421,23 @@ function toNaryString(num, n) {
  *   ['/web/assets/style.css', '/.bin/mocha',  '/read.me'] => '/'
  *   ['/web/favicon.ico', '/web-scripts/dump', '/verbalizer/logs'] => '/'
  */
-function getCommonDirectoryPath(/* pathes */) {
-  throw new Error('Not implemented');
+function getCommonDirectoryPath(pathes) {
+  const commonPath = pathes.reduce((acc, val) => {
+    const splittedAcc = acc.split('/');
+    const splittedVal = val.split('/');
+
+    const newAcc = splittedAcc.reduce((accum, value, i) => {
+      if (splittedVal[i] !== value) {
+        return accum.slice(0, i);
+      }
+
+      return accum;
+    }, splittedAcc);
+
+    return newAcc.length > 0 ? `${newAcc.join('/')}/` : '';
+  }, pathes[0]);
+
+  return commonPath.length === 0 ? '' : `${commonPath}`;
 }
 
 
@@ -407,8 +459,28 @@ function getCommonDirectoryPath(/* pathes */) {
  *                         [ 6 ]]
  *
  */
-function getMatrixProduct(/* m1, m2 */) {
-  throw new Error('Not implemented');
+function getMatrixProduct(m1, m2) {
+  const m1Cols = m1[0].length;
+
+  const result = [];
+
+  for (let i = 0; i < m1.length; i += 1) {
+    const row = [];
+
+    for (let j = 0; j < m2[0].length; j += 1) {
+      let sum = 0;
+
+      for (let k = 0; k < m1Cols; k += 1) {
+        sum += m1[i][k] * m2[k][j];
+      }
+
+      row.push(sum);
+    }
+
+    result.push(row);
+  }
+
+  return result;
 }
 
 
