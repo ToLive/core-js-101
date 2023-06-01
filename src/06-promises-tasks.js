@@ -111,7 +111,7 @@ function chainPromises(array, action) {
 
       array[currentIndex]
         .then((value) => {
-          result = result === undefined ? value : action(result, value);
+          result = currentIndex === 0 ? value : action(result, value);
           currentIndex += 1;
 
           processNextPromise();
